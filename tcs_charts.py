@@ -9,5 +9,5 @@ tcs.fill_m_q_p(usa_data)
 
 usa_chart = tcs.return_plot(data=usa_data,country_name='USA')
 
-st.pyplot(fig=usa_chart)
+st.pyplot(fig=usa_chart,use_container_width=True)
 
