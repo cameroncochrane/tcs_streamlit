@@ -15,6 +15,23 @@ def usa_page():
     st.title("USA Sales Data")
     st.pyplot(fig=usa_chart,use_container_width=True)
 
+def uk_page():
+    data = tcs.TCSpipelineCountry(country='UK')
+    tcs.fill_m_q_p(data)
+
+    uk_chart = tcs.return_plot(data=data,country_name='UK')
+
+    st.title("UK Sales Data")
+    st.pyplot(fig=uk_chart,use_container_width=True)
+
+def germany_page():
+    data = tcs.TCSpipelineCountry(country='Germany')
+    tcs.fill_m_q_p(data)
+
+    germany_chart = tcs.return_plot(data=data,country_name='Germany')
+
+    st.title("Germany Sales Data")
+    st.pyplot(fig=germany_chart,use_container_width=True)
 
 with st.sidebar:
     selected = option_menu(menu_title="Main Menu",
@@ -25,3 +42,7 @@ with st.sidebar:
 
 if selected == "USA":
     usa_page()
+if selected == "UK":
+    uk_page()
+if selected == "Germany":
+    germany_page()
