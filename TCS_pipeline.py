@@ -315,7 +315,7 @@ def return_plot(data,country_name:str):
     months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
     quarters = ['Q1','Q2','Q3','Q4']
 
-    fig, axs = plt.subplots(2,4, figsize=(20,10))
+    fig, axs = plt.subplots(2,4, figsize=(40,20))
 
     # 1: Country Orders By Month
     ax = axs[0, 0]
