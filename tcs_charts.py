@@ -6,6 +6,11 @@ from streamlit_option_menu import option_menu
 import TCS_pipeline as tcs
 
 
+def home_page():
+    st.title("Toy Car Sales Pipeline")
+    st.write("This is a Streamlit dashboard which allows you to view the sales data of the Toy Car Sales dataset.")
+    st.write("The dataset is a sample of sales data from a company selling toys. The data is formatted in a way that allows us to easily view the sales figures for each country.")
+
 def usa_page():
     data = tcs.TCSpipelineCountry(country='USA')
     tcs.fill_m_q_p(data)
@@ -36,10 +41,12 @@ def germany_page():
 with st.sidebar:
     selected = option_menu(menu_title="Main Menu",
         options=["USA", "UK", "Germany"],
-        icons=["house", "file-earmark", "file-earmark"],
+        icons=["1-circle", "2-circle", "3-circle"],#Uses bootstrap logos. See here for more icons: https://icons.getbootstrap.com/
         menu_icon="cast",
         default_index=0)
 
+if selected == "Home":
+    home_page()
 if selected == "USA":
     usa_page()
 if selected == "UK":
