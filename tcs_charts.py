@@ -40,8 +40,8 @@ def germany_page():
 
 with st.sidebar:
     selected = option_menu(menu_title="Main Menu",
-        options=["USA", "UK", "Germany"],
-        icons=["1-circle", "2-circle", "3-circle"],#Uses bootstrap logos. See here for more icons: https://icons.getbootstrap.com/
+        options=["Home","USA", "UK", "Germany"],
+        icons=["house","1-circle", "2-circle", "3-circle"],#Uses bootstrap logos. See here for more icons: https://icons.getbootstrap.com/
         menu_icon="cast",
         default_index=0)
 
