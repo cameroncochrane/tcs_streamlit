@@ -7,7 +7,7 @@ import TCS_pipeline as tcs
 usa_data = tcs.TCSpipelineCountry(country='USA')
 tcs.fill_m_q_p(usa_data)
 
-usa_chart = tcs.return_plot
+usa_chart = tcs.return_plot(data=usa_data,country_name='USA')
 
-st.pyplot(usa_chart)
+st.pyplot(fig=usa_chart)
 
