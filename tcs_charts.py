@@ -23,7 +23,7 @@ def usa_page():
     tcs.name_columns_rows(data)
     tcs.add_df_titles(df_list=data,country='USA')
 
-    st.dataframe(data[0], use_container_width=True)
+    st.markdown(data[0])
 
 def uk_page():
     data = tcs.TCSpipelineCountry(country='UK')
