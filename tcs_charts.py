@@ -19,6 +19,11 @@ def usa_page():
 
     st.title("USA Sales Data")
     st.pyplot(fig=usa_chart,use_container_width=True)
+    
+    tcs.name_columns_rows(data)
+    tcs.add_df_titles(data)
+    
+    st.dataframe(data[0], use_container_width=True)
 
 def uk_page():
     data = tcs.TCSpipelineCountry(country='UK')
@@ -42,7 +47,7 @@ with st.sidebar:
     selected = option_menu(menu_title="Main Menu",
         options=["Home","USA", "UK", "Germany"],
         icons=["house","1-circle", "2-circle", "3-circle"],#Uses bootstrap logos. See here for more icons: https://icons.getbootstrap.com/
-        menu_icon="cast",
+        menu_icon="list",
         default_index=0)
 
 if selected == "Home":

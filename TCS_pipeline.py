@@ -6,7 +6,6 @@ import openpyxl
 
 # NEED TO MAKE SCRIPT HERE WHICH WOULD PLOT THE DATAFRAMES BELOW FORMED FOR EACH COUNTRY IN A PIPELINE. HARD TO DO ONE BY ONE FOR EACH COUNTRY.
 
-
 def TCSpipelineCountry(country,generate_excel=False):
     """
     Returns a list of dataframes featuring the 7 different sales figures for a given country of the 'Toy Car Sales' dataset.
@@ -144,6 +143,7 @@ def TCSpipelineCountry(country,generate_excel=False):
     
     return combined_metrics
 
+
 # These are here so 'fill_m_q()' works. Don't need to use them when importing these modules:
 def add_missing_months(dataframe):
 
@@ -173,6 +173,7 @@ def add_missing_products(dataframe):
     new_dataframe = dataframe._append(missing_df)
 
     return new_dataframe
+
 
 # Use this function to fill in the missing months, quarters and procucts:
 def fill_m_q_p(df_list):
@@ -399,4 +400,89 @@ def country_list():
     
     return country_list
 
+def df_indice_list():
+    
+    df_indices = {'country_orders_by_month':0,
+    'country_orders_by_quarter':1,
+    'country_monthly_total_sales':2,
+    'country_quarterly_total_sales':3,
+    'country_average_sale_per_order_monthly':4,
+    'country_average_sale_per_order_quarterly':5,
+    'country_orders_per_product':6}
 
+    return df_indices
+
+def name_columns_rows(df_list:list):
+    """
+    Uses the list of dataframes that has beed generated from 'TCSpipelineCountry()', and gone through 'fill_m_q_p()' functions.
+    """
+
+    df_indices = {'country_orders_by_month': 0,
+    'country_orders_by_quarter': 1,
+    'country_monthly_total_sales': 2,
+    'country_quarterly_total_sales': 3,
+    'country_average_sale_per_order_monthly': 4,
+    'country_average_sale_per_order_quarterly': 5,
+    'country_orders_per_product': 6}
+
+    months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    quarters = ['Q1', 'Q2', 'Q3', 'Q4']
+    
+    monthly_dfs = [df_list[df_indices['country_orders_by_month']],
+                   df_list[df_indices['country_monthly_total_sales']],
+                   df_list[df_indices['country_average_sale_per_order_monthly']]]
+    
+    for df in monthly_dfs:
+        df.index = months
+    
+    quarterly_dfs = [df_list[df_indices['country_orders_by_quarter']],
+                   df_list[df_indices['country_quarterly_total_sales']],
+                   df_list[df_indices['country_average_sale_per_order_quarterly']]]
+    
+    for df in quarterly_dfs:
+        df.index = quarters
+    
+    orders_dfs = [df_list[df_indices['country_orders_by_month']],
+                  df_list[df_indices['country_orders_by_quarter']],
+                  df_list[df_indices['country_orders_per_product']]]
+
+    sales_dfs = [df_list[df_indices['country_monthly_total_sales']],
+                 df_list[df_indices['country_quarterly_total_sales']]]
+
+    misc_list = [df_list[df_indices['country_average_sale_per_order_monthly']],
+                 df_list[df_indices['country_average_sale_per_order_quarterly']]]
+    
+    for df in orders_dfs:
+        df.columns = ['Orders']
+    
+    for df in sales_dfs:
+        df.columns = ['Sales ($)']
+    
+    for df in misc_list:
+        df.columns = ['Average Sale per Order ($)']
+
+    #Works nicely
+
+def add_df_titles(country:str,df_list:list):
+    """
+    
+    """
+
+    df_indices = {'country_orders_by_month': 0,
+    'country_orders_by_quarter': 1,
+    'country_monthly_total_sales': 2,
+    'country_quarterly_total_sales': 3,
+    'country_average_sale_per_order_monthly': 4,
+    'country_average_sale_per_order_quarterly': 5,
+    'country_orders_per_product': 6}
+
+    df_names = [f'{country} Orders by Month',
+                f'{country} Orders by Quarter',
+                f'{country} Total Sales by Month',
+                f'{country} Total Sales by Quarter',
+                f'{country} Average Sale per Order by Month',
+                f'{country} Average Sale per Order by Quarter',
+                f'{country} Orders per Product']
+        
+    for item in list(df_indices.keys()):
+        df_list[df_indices[item]].columns = pd.MultiIndex.from_product([[df_names[df_indices[item]]], list(df_list[df_indices[item]].columns)])
