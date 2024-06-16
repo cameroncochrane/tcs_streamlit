@@ -28,14 +28,13 @@ def home_page():
 
 countries = tcs.country_list()
 circle_icons = []
-
 for i in range(0,len(countries)):
     circle_icons.append(f"{i+1}-circle") #Icons for the items in the sidebar list
 
 with st.sidebar:
     selected = option_menu(menu_title="Main Menu",
-        options=["Home"].append(countries),
-        icons=["house"].append(circle_icons),#Uses bootstrap logos. See here for more icons: https://icons.getbootstrap.com/
+        options= ["Home"] + countries,
+        icons=["house"] + circle_icons,#Uses bootstrap logos. See here for more icons: https://icons.getbootstrap.com/
         menu_icon="list",
         default_index=0)
 
