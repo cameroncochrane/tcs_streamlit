@@ -26,16 +26,21 @@ def home_page():
     st.write("This is a Streamlit dashboard which allows you to view the sales data of the Toy Car Sales dataset.")
     st.write("The dataset is a sample of sales data from a company selling toys. The data is formatted in a way that allows us to easily view the sales figures for each country.")
 
+countries = tcs.country_list()
+circle_icons = []
+
+for i in range(0,len(countries)):
+    circle_icons.append(f"{i+1}-circle") #Icons for the items in the sidebar list
 
 with st.sidebar:
     selected = option_menu(menu_title="Main Menu",
-        options=["Home","USA", "UK", "Germany"],
-        icons=["house","1-circle", "2-circle", "3-circle"],#Uses bootstrap logos. See here for more icons: https://icons.getbootstrap.com/
+        options=["Home"].append(countries),
+        icons=["house"].append(circle_icons),#Uses bootstrap logos. See here for more icons: https://icons.getbootstrap.com/
         menu_icon="list",
         default_index=0)
 
 if selected == "Home":
     home_page()
 
-if selected == "USA":
-    show_country_page('USA')
+if selected in countries:
+    show_country_page(selected)
