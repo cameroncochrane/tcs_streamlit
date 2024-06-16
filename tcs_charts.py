@@ -18,11 +18,11 @@ def usa_page():
     usa_chart = tcs.return_plot(data=data,country_name='USA')
 
     st.title("USA Sales Data")
-    st.pyplot(fig=usa_chart,use_container_width=True)
+    #st.pyplot(fig=usa_chart,use_container_width=True)
     
     tcs.name_columns_rows(data)
     tcs.add_df_titles(data)
-    
+
     st.dataframe(data[0], use_container_width=True)
 
 def uk_page():
