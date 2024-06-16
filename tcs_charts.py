@@ -21,7 +21,7 @@ def usa_page():
     #st.pyplot(fig=usa_chart,use_container_width=True)
     
     tcs.name_columns_rows(data)
-    tcs.add_df_titles(data)
+    tcs.add_df_titles(df_list=data,country='USA')
 
     st.dataframe(data[0], use_container_width=True)
 
