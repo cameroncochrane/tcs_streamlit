@@ -33,8 +33,8 @@ for i in range(0,len(countries)):
 
 with st.sidebar:
     selected = option_menu(menu_title="Main Menu",
-        options= ["Home"] + countries,
-        icons=["house"],#Uses bootstrap logos. See here for more icons: https://icons.getbootstrap.com/
+        options= ["Home","Overview"] + countries,
+        icons=["house"] + circle_icons,#Uses bootstrap logos. See here for more icons: https://icons.getbootstrap.com/
         menu_icon="list",
         default_index=0)
 
