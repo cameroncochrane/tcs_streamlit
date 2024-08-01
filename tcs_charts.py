@@ -27,14 +27,11 @@ def home_page():
     st.write("The dataset is a sample of sales data from a company selling toys. The data is formatted in a way that allows us to easily view the sales figures for each country.")
 
 countries = tcs.country_list()
-circle_icons = []
-for i in range(0,len(countries)):
-    circle_icons.append(f"{i+1}-circle") #Icons for the items in the sidebar list
 
 with st.sidebar:
     selected = option_menu(menu_title="Main Menu",
         options= ["Home","Overview"] + countries,
-        icons=["house","binoculars"] + circle_icons,#Uses bootstrap logos. See here for more icons: https://icons.getbootstrap.com/
+        icons=["house","binoculars"], #Uses bootstrap logos. See here for more icons: https://icons.getbootstrap.com/
         menu_icon="list",
         default_index=0)
 
