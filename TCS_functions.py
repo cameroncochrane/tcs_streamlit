@@ -5,7 +5,6 @@ from pandas import ExcelWriter
 import openpyxl
 
 # NEED TO MAKE SCRIPT HERE WHICH WOULD PLOT THE DATAFRAMES BELOW FORMED FOR EACH COUNTRY IN A PIPELINE. HARD TO DO ONE BY ONE FOR EACH COUNTRY.
-
 def TCSpipelineCountry(country,generate_excel=False):
     """
     Returns a list of dataframes featuring the 7 different sales figures for a given country of the 'Toy Car Sales' dataset.
@@ -142,7 +141,6 @@ def TCSpipelineCountry(country,generate_excel=False):
                         country_orders_per_product]
     
     return combined_metrics
-
 
 # These are here so 'fill_m_q()' works. Don't need to use them when importing these modules:
 def add_missing_months(dataframe):
@@ -486,3 +484,47 @@ def add_df_titles(country:str,df_list:list):
         
     for item in list(df_indices.keys()):
         df_list[df_indices[item]].columns = pd.MultiIndex.from_product([[df_names[df_indices[item]]], list(df_list[df_indices[item]].columns)])
+
+def generate_all_data():
+    """
+    Uses a combination of the above functions to return a dictionary of dataframe lists of each country
+    """
+
+    countries = tcs.country_list()
+
+    data_list = []
+
+    for country in countries:
+        data = TCSpipelineCountry(country=country)
+        fill_m_q_p(data)
+        name_columns_rows(data)
+        add_df_titles(df_list=data,country=country)
+
+        data_list.append(data)
+    
+    data_dict = dict(zip(countries,data_list))
+
+    return data_dict
+
+def plot_total_sales_by_country():
+
+    index = df_indice_list()
+    data = generate_all_data()
+    countries = country_list()
+    sales = []
+
+    for country in countries:
+        sales.append(data[f'{country}'][index['country_monthly_total_sales']][f'{country} Total Sales by Month']['Sales ($)'].sum())
+
+    data = list(zip(countries,sales))
+    data.sort(key=lambda x: x[1], reverse=True)
+    sorted_countries,sorted_sales = zip(*data)
+
+    fig, ax = plt.subplots(figsize=(10,5))
+    ax.bar(x=sorted_countries,height=sorted_sales)
+    ax.set_title(f'Total Sales by Country')
+    ax.set_xlabel('Country')
+    ax.tick_params(axis='x', labelsize=10, rotation=30)
+    ax.set_ylabel('Sales ($)')
+
+    return fig

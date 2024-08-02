@@ -5,6 +5,8 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 import TCS_functions as tcs
 
+countries = tcs.country_list()
+
 def home_page():
     st.title("Toy Car Sales Pipeline")
     st.write("This is a Streamlit dashboard which allows you to view the sales data of the Toy Car Sales dataset.")
@@ -27,9 +29,10 @@ def show_country_page(country:str):
         st.dataframe(data[i],use_container_width=True)
 
 def general_overview_page():
-    pass
 
-countries = tcs.country_list()
+    chart = tcs.plot_total_sales_by_country()
+    st.pyplot(fig=chart,use_container_width=True)      
+
 
 with st.sidebar:
     selected = option_menu(menu_title="Main Menu",
@@ -41,7 +44,9 @@ with st.sidebar:
 if selected == "Home":
     home_page()
 
+if selected == "Overview":
+    general_overview_page()
+
 if selected in countries:
     show_country_page(selected)
 
-#abc
