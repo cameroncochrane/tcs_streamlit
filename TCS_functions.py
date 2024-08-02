@@ -490,7 +490,7 @@ def generate_all_data():
     Uses a combination of the above functions to return a dictionary of dataframe lists of each country
     """
 
-    countries = tcs.country_list()
+    countries = country_list()
 
     data_list = []
 
