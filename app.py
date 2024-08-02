@@ -3,7 +3,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
 from streamlit_option_menu import option_menu
-import TCS_pipeline as tcs
+import TCS_functions as tcs
+
+def home_page():
+    st.title("Toy Car Sales Pipeline")
+    st.write("This is a Streamlit dashboard which allows you to view the sales data of the Toy Car Sales dataset.")
+    st.write("The dataset is a sample of sales data from a company selling toys. The data is formatted in a way that allows us to easily view the sales figures for each country.")
 
 
 def show_country_page(country:str):
@@ -21,10 +26,8 @@ def show_country_page(country:str):
     for i in range(0,len(data)):
         st.dataframe(data[i],use_container_width=True)
 
-def home_page():
-    st.title("Toy Car Sales Pipeline")
-    st.write("This is a Streamlit dashboard which allows you to view the sales data of the Toy Car Sales dataset.")
-    st.write("The dataset is a sample of sales data from a company selling toys. The data is formatted in a way that allows us to easily view the sales figures for each country.")
+def general_overview_page():
+    pass
 
 countries = tcs.country_list()
 
