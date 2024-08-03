@@ -34,17 +34,17 @@ def general_overview_page():
 
     st.title("General Overview")
 
-    col = st.columns((2,2,2),gap="medium")
+    col1, col2, col3 = st.columns(3)
 
-    with col[0]:
+    with col1:
         st.write("Column 1")
         chart = tcs.plot_total_sales_by_country()
         st.pyplot(fig=chart,use_container_width=True)
 
-    with col[1]:
+    with col2:
         st.write("Column 2")
 
-    with col[2]:
+    with col3:
         st.write("Column 3")   
 
 
