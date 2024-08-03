@@ -34,7 +34,7 @@ def general_overview_page():
 
     #st.title("General Overview")
 
-    col = st.columns((2,2,2), gap='medium')
+    col = st.columns((2,2,2))
 
     with col[0]:
         st.write("Column 1")
