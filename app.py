@@ -39,7 +39,7 @@ def general_overview_page():
     with col[0]:
         st.write("Column 1")
         chart = tcs.plot_total_sales_by_country()
-        st.pyplot(fig=chart,use_container_width=False)
+        st.pyplot(fig=chart,use_container_width=True)
 
     with col[1]:
         st.write("Column 2")
