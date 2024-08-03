@@ -32,9 +32,9 @@ def show_country_page(country:str):
 
 def general_overview_page():
 
-    #st.title("General Overview")
+    st.title("General Overview")
 
-    col = st.columns((2,2,2))
+    col = st.columns((2,2,2),gap="medium")
 
     with col[0]:
         st.write("Column 1")
