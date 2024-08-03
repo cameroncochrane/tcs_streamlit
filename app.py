@@ -33,8 +33,12 @@ def show_country_page(country:str):
 def general_overview_page():
 
     st.title("General Overview")
-    chart = tcs.plot_total_sales_by_country()
-    st.pyplot(fig=chart,use_container_width=True)      
+
+    col = st.columns((2,2,2), gap='medium')
+
+    with col[1]:
+        chart = tcs.plot_total_sales_by_country()
+        st.pyplot(fig=chart,use_container_width=True)      
 
 
 with st.sidebar:
