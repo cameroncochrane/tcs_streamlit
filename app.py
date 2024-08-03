@@ -37,8 +37,15 @@ def general_overview_page():
     col = st.columns((2,2,2), gap='medium')
 
     with col[1]:
+        st.write("Column 1")
         chart = tcs.plot_total_sales_by_country()
-        st.pyplot(fig=chart,use_container_width=True)      
+        st.pyplot(fig=chart,use_container_width=True)
+
+    with col[2]:
+        st.write("Column 2")
+
+    with col[3]:
+        st.write("Column 3")   
 
 
 with st.sidebar:
