@@ -520,7 +520,7 @@ def plot_total_sales_by_country():
     data.sort(key=lambda x: x[1], reverse=True)
     sorted_countries,sorted_sales = zip(*data)
 
-    fig, ax = plt.subplots(figsize=(10,5))
+    fig, ax = plt.subplots(figsize=(4,4))
     ax.bar(x=sorted_countries,height=sorted_sales)
     ax.set_title(f'Total Sales by Country')
     ax.set_xlabel('Country')
