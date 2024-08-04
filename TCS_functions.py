@@ -1,8 +1,8 @@
 import pandas as pd
 import numpy as np 
 import matplotlib.pyplot as plt 
-from pandas import ExcelWriter
-import openpyxl
+import plotly.express as px
+
 
 # NEED TO MAKE SCRIPT HERE WHICH WOULD PLOT THE DATAFRAMES BELOW FORMED FOR EACH COUNTRY IN A PIPELINE. HARD TO DO ONE BY ONE FOR EACH COUNTRY.
 def TCSpipelineCountry(country,generate_excel=False):
@@ -389,7 +389,25 @@ def return_plot(data,country_name:str):
     # Normally to plot the chart, 'plt.show()' is used. If we want to return the chart, we don't do 'return plt', we do 'return x',
     # where x is what we put the chart in at the start (x, axes = plt.subplots()). It's 'fig' in this instance.
     return fig
+
+def return_pie_plot_orders_country(data,country_name:str):
+    """
+    Creates a pie chart of the orders per product for a given country. 'data' should be generated from the 'TCSpipelineCountry' function,
+    and should also have been transformed using the 'fill_m_q_p' function. 'country_name' is used in the chart title.
+    """
+    data_indices = df_indice_list()
+    country_product_orders_index = data_indices['country_orders_per_product']
+    product_data = data[country_product_orders_index]
+    orders = list(product_data[0].values)
+    products = list(product_data[0].index)
+
+    fig, ax = plt.subplots(figsize=(8,3))
+    ax.pie(orders)
+    ax.set_title(f'{country_name} Orders by Product')
+    ax.legend(products, loc="center left", bbox_to_anchor=(1, 0.5))
     
+    return fig 
+
 def country_list():
     country_list = ['USA', 'Germany', 'Norway', 'Spain', 'Denmark', 'Italy',
         'Philippines', 'UK', 'Sweden', 'France', 'Belgium', 'Singapore',
@@ -520,11 +538,113 @@ def plot_total_sales_by_country():
     data.sort(key=lambda x: x[1], reverse=True)
     sorted_countries,sorted_sales = zip(*data)
 
-    fig, ax = plt.subplots(figsize=(7,5))
-    ax.bar(x=sorted_countries,height=sorted_sales)
+    blue_colors_hex = [
+    "#00008B",  # DarkBlue
+    "#0000CD",  # MediumBlue
+    "#0000FF",  # Blue
+    "#191970",  # MidnightBlue
+    "#4169E1",  # RoyalBlue
+    "#4682B4",  # SteelBlue
+    "#1E90FF",  # DodgerBlue
+    "#6495ED",  # CornflowerBlue
+    "#00BFFF",  # DeepSkyBlue
+    "#87CEEB",  # SkyBlue
+    "#87CEFA",  # LightSkyBlue
+    "#00CED1",  # DarkTurquoise
+    "#48D1CC",  # MediumTurquoise
+    "#40E0D0",  # Turquoise
+    "#AFEEEE",  # PaleTurquoise
+    "#B0E0E6",  # PowderBlue
+    "#ADD8E6",  # LightBlue
+    "#B0C4DE",  # LightSteelBlue
+    "#F0F8FF",  # AliceBlue
+    ]
+
+    fig, ax = plt.subplots(figsize=(10,4))
+    ax.bar(x=sorted_countries,height=sorted_sales,color=blue_colors_hex)
     ax.set_title(f'Total Sales by Country')
     ax.set_xlabel('Country')
     ax.tick_params(axis='x', labelsize=10, rotation=30)
     ax.set_ylabel('Sales ($)')
 
     return fig
+
+def plot_sales_world_map():
+    
+    index = df_indice_list()
+    data = generate_all_data()
+    countries = country_list()
+    sales = []
+
+    for country in countries:
+            sales.append(data[f'{country}'][index['country_monthly_total_sales']][f'{country} Total Sales by Month']['Sales ($)'].sum())
+
+    data_dict = {'Country':countries,'Sales ($)':sales}
+    data_df = pd.DataFrame(data_dict)
+
+    fig = px.choropleth(data_dict, locations="Country",
+                    locationmode='country names',
+                    color="Sales ($)",
+                    hover_name="Country",
+                    color_continuous_scale=px.colors.sequential.Plasma)
+
+    fig.update_layout(title='Sales Data by Country (Worldwide)')
+    
+    return fig
+
+def plot_sales_europe_map():
+    
+    index = df_indice_list()
+    data = generate_all_data()
+    countries = country_list()
+    sales = []
+
+    for country in countries:
+            sales.append(data[f'{country}'][index['country_monthly_total_sales']][f'{country} Total Sales by Month']['Sales ($)'].sum())
+
+    data_dict = {'Country':countries,'Sales ($)':sales}
+    data_df = pd.DataFrame(data_dict)
+
+    drop_countries = ['USA','Australia','Singapore','Canada','Japan','Philippines']
+    condition = data_df['Country'].isin(drop_countries)
+
+    # Drop rows based on the condition
+    df_europe = data_df.drop(data_df[condition].index)
+
+    fig = px.choropleth(df_europe, locations="Country",
+                    locationmode='country names',
+                    color="Sales ($)",
+                    hover_name="Country",
+                    color_continuous_scale=px.colors.sequential.Plasma)
+
+    fig.update_layout(title='Sales Data by Country (Europe)')
+
+    fig.update_geos(
+    scope="europe",
+    projection_type="mercator"
+    )
+    
+    return fig
+
+def top_three_country():
+    index = df_indice_list()
+    data = generate_all_data()
+    countries = country_list()
+    sales = []
+    orders = []
+
+    for country in countries:
+            sales.append(data[f'{country}'][index['country_monthly_total_sales']][f'{country} Total Sales by Month']['Sales ($)'].sum())
+            orders.append(data[f'{country}'][index['country_orders_by_month']][f'{country} Orders by Month']['Orders'].sum())
+
+    orders_dict = {'Country':countries,'Orders':orders}
+    sales_dict = {'Country':countries,'Sales ($)':sales}
+
+    orders_df = pd.DataFrame(orders_dict).sort_values(by='Orders',ascending=False)
+    sales_df = pd.DataFrame(sales_dict).sort_values(by='Sales ($)',ascending=False)
+
+    orders_df = orders_df.head(3)
+    sales_df = sales_df.head(3)
+
+    return orders_df, sales_df
+         
