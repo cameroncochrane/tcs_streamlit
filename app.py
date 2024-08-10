@@ -9,10 +9,10 @@ import TCS_functions as tcs
 
 st.set_page_config(layout="wide")
 
-countries = tcs.country_list()
+#### FUNCTIONS FOR EACH PAGE TYPE
 
 def home_page():
-    st.title("Toy Car Sales Pipeline")
+    st.title("Toy Car Sales")
     st.write("This is a Streamlit dashboard which allows you to view the sales data of the Toy Car Sales dataset.")
     st.write("The dataset is a sample of sales data from a company selling toys. The data is formatted in a way that allows us to easily view the sales figures for each country.")
 
@@ -80,20 +80,54 @@ def sales_dashboard_page():
         world_map = tcs.plot_sales_europe_map()
         st.plotly_chart(world_map)
 
+#### EXECUTE THIS FUNCTION TO LOAD THE APP ####
+def load_app():
 
-with st.sidebar:
-    selected = option_menu(menu_title="Main Menu",
-        options= ["Home","Sales Dashboard"] + countries,
-        icons=["house","binoculars"], #Uses bootstrap logos. See here for more icons: https://icons.getbootstrap.com/
-        menu_icon="list",
-        default_index=0)
+    countries = tcs.country_list()
 
-if selected == "Home":
-    home_page()
+    with st.sidebar:
+        selected = option_menu(menu_title="Main Menu",
+            options= ["Home","Sales Dashboard"] + countries,
+            icons=["house","binoculars"], #Uses bootstrap logos. See here for more icons: https://icons.getbootstrap.com/
+            menu_icon="list",
+            default_index=0)
 
-if selected == "Sales Dashboard":
-    sales_dashboard_page()
+    if selected == "Home":
+        home_page()
 
-if selected in countries:
-    show_country_page(selected)
+    if selected == "Sales Dashboard":
+        sales_dashboard_page()
+
+    if selected in countries:
+        show_country_page(selected)
+
+#### ENTERING THE APP WITH A PASSWORD ####
+
+# Set the correct password
+correct_password = "toycarsales"
+
+# Function to check the password
+def check_password():
+    st.session_state["password_correct"] = st.session_state["password"] == correct_password
+
+def input_password():
+    st.text_input("Enter the password", type="password", on_change=check_password, key="password")
+    st.button("Submit")
+    # Ask the user for the password
+
+
+# Input for the password
+if "password_correct" not in st.session_state:
+    # Ask the user for the password
+    input_password()
+else:
+    # Check if the password is correct
+    if st.session_state["password_correct"]:
+        load_app()
+        
+    else:
+        st.session_state.pop("password_correct")
+        st.write("Incorrect password.")
+        # Optionally, clear the incorrect password input
+        input_password()
 
