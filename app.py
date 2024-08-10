@@ -47,18 +47,29 @@ def sales_dashboard_page():
     with col1:
         st.subheader("Country Comparisons")
         top_orders,top_sales = tcs.top_three_country()
-        nest_col_1, nest_col_2 = st.columns((1,1))
+        nest_col_1_1, nest_col_1_2 = st.columns((1,1))
 
-        with nest_col_1:
+        with nest_col_1_1:
             st.write("Sales by Country")
             st.dataframe(top_sales)
         
-        with nest_col_2:
+        with nest_col_1_2:
             st.write("Orders by Country")
             st.dataframe(top_sales)
 
         chart = tcs.plot_total_sales_by_country()
         st.pyplot(fig=chart,use_container_width=True)
+
+        st.subheader("Product Comparisons")
+        product_table, product_chart = tcs.product_popularity()
+
+
+        nest_col_2_1, nest_col_2_2 = st.columns((1,1))
+
+        with  nest_col_2_1:
+            st.dataframe(product_table)
+        with nest_col_2_2:
+            st.pyplot(fig=product_chart,use_container_width=True)
 
         
     with col2:

@@ -647,4 +647,31 @@ def top_three_country():
     sales_df = sales_df.head(3)
 
     return orders_df, sales_df
-         
+
+def product_popularity():
+    """
+    Returns a dataframe and histogram chart of the number of orders for each product type.
+    """
+
+    data = pd.read_csv("sales_data_sample_formatted.csv")
+    product_counts = data['PRODUCTLINE'].value_counts().reset_index()
+    product_counts.columns = ['Product','Count']
+
+    fig, ax = plt.subplots(figsize=(5,4))
+
+    colors = ['#1157e3',
+              '#59cf76',
+              '#04ea3d',
+              '#24e311',
+              '#243922',
+              '#2e347d',
+              '#26855a']
+
+    ax.bar(x=product_counts['Product'],height=product_counts['Count'],color=colors)
+    ax.set_title('Product Popularity')
+    ax.set_xlabel('Product')
+    ax.tick_params(axis='x', labelsize=10, rotation=30)
+    ax.set_ylabel('Number of Orders')
+
+    return product_counts, fig
+
