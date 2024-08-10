@@ -2,6 +2,6 @@ streamlit
 streamlit_option_menu
 numpy
 matplotlib
-plotly.express
+plotly
 pandas
 openpyxl
